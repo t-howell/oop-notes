@@ -5,8 +5,8 @@ Part 1: Overview
 
 -4 Pillars of OOP
 1. encapsulation: grouping methods/functions and properties/variables.
-2. abstraction: showing only the essential methods and properties.
-3. inheritance
+2. abstraction: Hiding information. Showing only the essential methods and properties.
+3. inheritance: extending existing classes/objects to make new objects with additional information/methods
 4. polymorphism 
 
 */
@@ -248,7 +248,59 @@ circle.draw();
 Part 10: Exercise
 
 */
+function StopWatch() {
+  this.duration = 0;
+  function getTime() {
+    let timer = setInterval(myTimer, 1000);
+    function myTimer() {
+      let d = new Date();
+      console.log(d.toLocaleTimeString);
+      return d;
+    }
+  }
+  this.start = function() {
+    getTime();
+  };
+  this.stop = function() {};
+  this.reset = function() {};
+}
+const sw = new StopWatch();
 /* 
 Part 11: Solution
 
 */
+//constructor function
+function Stopwatch() {
+  let startTime,
+    endTime,
+    running,
+    duration = 0;
+  this.start = function() {
+    if (running) {
+      throw new Error("Stopwatch has already started.");
+    }
+    running = true;
+    startTime = new Date();
+  };
+  this.stop = function() {
+    if (!running) {
+      throw new Error("Stopwatch has not been started.");
+    }
+    running = false;
+    endTime = new Date();
+
+    const seconds = (endTime.getTime() - startTime.getTime()) / 1000;
+    duration += seconds;
+  };
+  this.reset = function() {
+    startTime = null;
+    endTime = null;
+    running = false;
+    duration = 0;
+  };
+  Object.defineProperty(this, "duration", {
+    get: function() {
+      return duration;
+    }
+  });
+}
